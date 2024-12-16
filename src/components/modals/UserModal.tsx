@@ -6,6 +6,8 @@ import RegisterForm from "../forms/RegisterForm";
 interface UserModalProps {
     onUserChange: () => void; // Callback para actualizar el listado
 }
+
+
 const UserModal = ({ onUserChange }: UserModalProps) => {
     const { setIsModalOpen, isModalOpen, isEditMode, selectedUser } = useUserStore();
 
@@ -52,11 +54,15 @@ const UserModal = ({ onUserChange }: UserModalProps) => {
 
                     {/* Formulario de usuario */}
                     <RegisterForm 
-                        user={selectedUser ? {
-                            ...selectedUser,
-                            password: selectedUser.password?? "",
-                        }: undefined} 
-                        closeModal={() => setIsModalOpen(false)} 
+                        user={
+                            selectedUser
+                            ? {
+                                ...selectedUser,
+                                  password: selectedUser.password || "", // Convertimos null/undefined en string vacío
+                                }
+                            : undefined
+                        }
+                        closeModal={() => setIsModalOpen(false)}
                         onUserChange={onUserChange}
                         />
                         
