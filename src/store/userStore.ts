@@ -112,7 +112,7 @@ export const useUserStore = create<UserState>((set) => ({
         try {
             const response = await axios.put(
                 `${BASE_URL}/users/update/${userID}`,
-                userData,
+                { userID, ...userData },
                 {
                     headers: {
                         "Authorization": `Bearer ${token}`, // Incluir el token
