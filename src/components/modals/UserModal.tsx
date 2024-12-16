@@ -52,7 +52,10 @@ const UserModal = ({ onUserChange }: UserModalProps) => {
 
                     {/* Formulario de usuario */}
                     <RegisterForm 
-                        user={selectedUser} 
+                        user={selectedUser ? {
+                            ...selectedUser,
+                            password: selectedUser.password?? "",
+                        }: undefined} 
                         closeModal={() => setIsModalOpen(false)} 
                         onUserChange={onUserChange}
                         />
