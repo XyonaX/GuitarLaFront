@@ -5,7 +5,7 @@ import { format } from "date-fns";
 type RegisterFormData = {
     username: string;
     email: string;
-    password: string;
+    password?: string;
     fullName: string;
     role: "admin" | "user";
     status: "activo" | "inactivo";
@@ -47,7 +47,7 @@ export default function RegisterForm({ user, closeModal, onUserChange }: Registe
         setMessage(null);
 
         // Eliminar campos que no deben ser enviados al backend
-        const { _id, createdAt, ...processedData } = data;
+        const { ...processedData } = data;
 
         // Formatear la fecha a "yyyy/MM/dd"
         const formattedDate = data.dateOfBirth
@@ -92,7 +92,7 @@ export default function RegisterForm({ user, closeModal, onUserChange }: Registe
     const handleEditUser = async (data: RegisterFormData) => {
         setMessage(null);
     
-        const { _id, createdAt, ...processedData } = data;
+        const { ...processedData } = data;
     
         const formattedDate = data.dateOfBirth
         ? format(new Date(data.dateOfBirth), "yyyy/MM/dd")
