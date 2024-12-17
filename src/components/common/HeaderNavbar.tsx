@@ -205,49 +205,44 @@ export default function HeaderNavbar() {
                           <h3 className="text-lg text-center font-bold">
                             Carrito de compras
                           </h3>
-                          <table className="w-auto">
-                            {/* <thead>
-                              <tr className="flex items-center justify-between gap-6 border-b-2 border-b-slate-200 pb-3">
-                                <th>Imagen</th>
-                                <th>Nombre</th>
-                                <th>Precio</th>
-                                <th>Cantidad</th>
-                                <th className="text-transparent">...</th>
-                              </tr>
-                            </thead> */}
-                            <tbody className="">
+                          <table className="w-full table-auto">
+                            <tbody className="w-full">
                               {cart.map((item) => (
                                 <tr
-                                  className="flex items-center justify-between gap-4 px-2 border-b-2 border-b-slate-200 p-2"
+                                  className="flex items-center justify-between gap-4 border-b-2 border-b-slate-200 p-2"
                                   key={item._id}
                                 >
-                                  <td>
+                                  <td className="">
                                     <img
                                       src={`${item.imageUrl}`}
                                       alt=""
-                                      className="w-6"
+                                      className="w-8 h-auto object-fill"
                                     />
                                   </td>
-                                  <td className="text-sm font-bold text-nowrap">
+                                  <td className="flex-1 text-sm font-bold text-nowrap">
                                     <p>{item.productName}</p>
                                   </td>
                                   <td>
-                                    <p>${item.price * item.quantity}</p>
+                                    <p className="text-sm">
+                                      ${(item.price * item.quantity).toFixed(2)}
+                                    </p>
                                   </td>
                                   <td className="flex gap-2">
                                     <button
                                       onClick={() => decreaseQuantity(item._id)}
+                                      className="bg-gray-200 rounded px-2"
                                     >
                                       -
                                     </button>
                                     <p>{item.quantity}</p>
                                     <button
                                       onClick={() => increaseQuantity(item._id)}
+                                      className="bg-gray-200 rounded px-2"
                                     >
                                       +
                                     </button>
                                   </td>
-                                  <td>
+                                  <td className="flex-shrink-0">
                                     <button
                                       onClick={(e) => {
                                         e.stopPropagation(); // Evita cerrar el carrito

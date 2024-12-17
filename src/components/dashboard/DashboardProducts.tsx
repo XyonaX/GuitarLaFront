@@ -83,7 +83,7 @@ export default function DashboardProducts() {
   const totalPages = Math.ceil(products.length / itemsPerPage);
 
   return (
-    <div className="py-16 px-8">
+    <div className="py-16 px-8 overflow-x-auto">
       <h2 className="text-4xl text-center text-orange-600 mb-12 font-bold">
         Dashboard de productos
       </h2>
@@ -94,15 +94,17 @@ export default function DashboardProducts() {
         <LoadingSpinner />
       ) : (
         <>
-          <table className="min-w-full border border-collapse mx-auto">
+          <table className="table-auto w-full border border-collapse mx-auto">
             <thead>
               <tr className="bg-gray-300">
-                <th className="border border-slate-200 py-4">Imagen</th>
-                <th className="border border-slate-200 py-4">Nombre</th>
-                <th className="border border-slate-200 py-4">Descripción</th>
-                <th className="border border-slate-200 py-4">Precio</th>
-                <th className="border border-slate-200 py-4">Stock</th>
-                <th className="border border-slate-200 py-4">Acciones</th>
+                <th className="border border-slate-200 py-4 px-2">Imagen</th>
+                <th className="border border-slate-200 py-4 px-2">Nombre</th>
+                <th className="border border-slate-200 py-4 px-2">
+                  Descripción
+                </th>
+                <th className="border border-slate-200 py-4 px-2">Precio</th>
+                <th className="border border-slate-200 py-4 px-2">Stock</th>
+                <th className="border border-slate-200 py-4 px-2">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -122,10 +124,10 @@ export default function DashboardProducts() {
                   <td className="p-4 border border-gray-300">
                     {product.productName}
                   </td>
-                  <td className="p-4 border border-gray-300 max-w-sm">
+                  <td className="p-4 border border-gray-300 max-w-[500px] truncate overflow-hidden whitespace-nowrap md:max-w-sm md:whitespace-normal">
                     {product.description}
                   </td>
-                  <td className="p-4 border border-gray-300">
+                  <td className="p-4 border border-gray-300 whitespace-nowrap">
                     $ {product.price}
                   </td>
                   <td className="p-4 border border-gray-300">

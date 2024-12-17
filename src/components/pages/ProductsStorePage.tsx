@@ -23,6 +23,11 @@ export default function ProductsStorePage() {
     fetchAllProducts();
   }, [fetchAllProducts]);
 
+  // Resetea la página actual a 1 cuando se aplica un filtro
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filter]);
+
   // Calcula los productos a mostrar en la página actual
   const indexOfLastProduct = currentPage * itemsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;

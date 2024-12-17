@@ -27,11 +27,22 @@ export default function ProductIDetailsPage() {
   const handleAddToCart = () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Debes iniciar sesión para realizar la compra");
-      navigate("/login");
+      // Mostrar el Toast en lugar del alert
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        icon: "warning",
+        title: "Debes iniciar sesión para realizar la compra",
+      });
+
+      Toast.fire().then(() => {
+        navigate("/login");
+      });
       return;
     }
-
     if (!selectedProduct) return;
 
     const cartItem = {
