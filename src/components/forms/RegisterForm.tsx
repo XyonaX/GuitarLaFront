@@ -5,7 +5,7 @@ import { format } from "date-fns";
 type RegisterFormData = {
     username: string;
     email: string;
-    password?: string;
+    password?: string | null;
     fullName: string;
     role: "admin" | "user";
     status: "activo" | "inactivo";

@@ -56,11 +56,11 @@ export default function ProductsStorePage() {
   return (
     <main>
       <section className="max-w-5xl mx-auto py-16">
-        <h2 className="text-5xl text-center text-orange-600 font-bold mb-10">
+        <h2 className="text-4xl md:text-5xl text-center text-orange-600 font-bold mb-10">
           Nuestros productos
         </h2>
 
-        <div className="flex justify-between gap-8 mb-4">
+        <div className="max-w-xl md:max-w-5xl mx-auto flex flex-col md:flex-row justify-between gap-8 mb-4 px-8">
           <input
             type="search"
             value={filter.search}
@@ -73,7 +73,7 @@ export default function ProductsStorePage() {
             <select
               value={filter.order}
               onChange={(e) => setFilter({ ...filter, order: e.target.value })}
-              className="w-20 py-2 pl-2 text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"
+              className="w-full md:w-20 py-2 pl-2 text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"
             >
               <option value="asc">Precio ascendente</option>
               <option value="desc">Precio descendente</option>

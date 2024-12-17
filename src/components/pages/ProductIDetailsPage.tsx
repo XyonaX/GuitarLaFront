@@ -3,7 +3,7 @@ import { useProductStore } from "../../store/productStore";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCartStore } from "../../store/cartStore";
 import LoadingSpinner from "../LoadingSpinner";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 export default function ProductIDetailsPage() {
   const { id } = useParams<{ id: string }>();
@@ -16,8 +16,6 @@ export default function ProductIDetailsPage() {
   const { addToCart, cart, showWarning, setShowWarning } = useCartStore();
   const [quantity, setQuantity] = useState<number>(1);
   const navigate = useNavigate();
-
-
 
   useEffect(() => {
     if (id) {
@@ -65,11 +63,11 @@ export default function ProductIDetailsPage() {
       didOpen: (toast) => {
         toast.onmouseenter = Swal.stopTimer;
         toast.onmouseleave = Swal.resumeTimer;
-      }
+      },
     });
     Toast.fire({
       icon: "success",
-      title: `${selectedProduct?.productName} agregado al carrito`
+      title: `${selectedProduct?.productName} agregado al carrito`,
     });
   };
 
@@ -95,8 +93,8 @@ export default function ProductIDetailsPage() {
         {loading ? (
           <LoadingSpinner />
         ) : (
-          <div className="max-w-4xl mx-auto py-16">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-16 rounded-xl">
+          <div className=" max-w-4xl mx-auto py-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-16 rounded-2xl">
               {/* Image */}
               <div className="flex items-center justify-center bg-white">
                 <img
@@ -105,7 +103,7 @@ export default function ProductIDetailsPage() {
                   className="w-52"
                 />
               </div>
-              <div className="flex flex-col flex-1 justify-center bg-white px-8">
+              <div className="flex flex-col flex-1 justify-center bg-white px-8 py-12 rounded-xl">
                 <h2 className="text-4xl text-start text-orange-600 font-bold mb-2">
                   {selectedProduct?.productName}
                 </h2>
@@ -133,7 +131,9 @@ export default function ProductIDetailsPage() {
                   </p>
                 </div>
                 <div className="mb-4">
-                  <span className="text-xl text-orange-500">Stock Disponible: {selectedProduct?.stock}</span>
+                  <span className="text-xl text-orange-500">
+                    Stock Disponible: {selectedProduct?.stock}
+                  </span>
                 </div>
                 <button
                   type="button"

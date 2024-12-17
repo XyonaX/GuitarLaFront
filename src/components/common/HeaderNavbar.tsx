@@ -151,7 +151,7 @@ export default function HeaderNavbar() {
                   <span className=" text-red-400">X</span>
                 ) : (
                   <span className="">
-                    <Bars2Icon className="h-8 w-8" />
+                    <Bars2Icon className="h-8 w-8 mr-4" />
                   </span>
                 )}
               </button>
@@ -184,8 +184,8 @@ export default function HeaderNavbar() {
                   </button>
                   {isCartOpen && (
                     <div
-                      className="cart absolute right-0 top-full bg-white shadow-lg w-96 rounded-lg p-4 z-20"
-                      onClick={(e) => e.stopPropagation()} // Evitar cerrar al interactuar dentro
+                      className="cart absolute -right-16 top-10 md:right-0 md:top-full bg-white shadow-lg w-96 rounded-lg p-4 z-20"
+                      onClick={(e) => e.stopPropagation()} // Evita cerrar al interactuar dentro
                     >
                       {/* Botón para cerrar el carrito */}
                       <button
