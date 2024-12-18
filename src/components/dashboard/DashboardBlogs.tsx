@@ -36,6 +36,7 @@ export default function DashboardBlogs() {
   };
 
   const handleCreateClick = async () => {
+    setSelectedBlog(null); // Limpiamos cualquier blog seleccionado
     setIsEditMode(false);
     setIsModalOpen(true);
   };

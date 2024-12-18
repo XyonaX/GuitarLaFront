@@ -25,7 +25,7 @@ export default function AboutUs() {
 
           {/* Llamada a la acción */}
           <div className="flex flex-col lg:flex-row justify-between items-center mt-auto space-y-4 lg:space-y-0 lg:space-x-4">
-            <Link to="/about_us" className="flex justify-end w-full lg:w-auto">
+            <Link to="/about_us_page" className="flex justify-end w-full lg:w-auto">
               <button
                 type="button"
                 className="uppercase font-bold bg-transparent border border-white text-white px-6 py-3 hover:bg-white hover:text-orange-600 transition duration-300 rounded-xl w-full lg:w-auto"

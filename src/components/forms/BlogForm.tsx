@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useBlogStore } from "../../store/blogStore";
 
-// Definimos el tipo de los datos del formulario
 type BlogFormData = {
     title: string;
     content: string;
@@ -14,7 +13,7 @@ type BlogFormData = {
 
 export default function BlogForm() {
     const selectedBlog = useBlogStore((state) => state.selectedBlog);
-    const setIsModalOpen = useBlogStore((state) => state.setIsModalOpen); // Accedemos a la función para controlar el modal
+    const setIsModalOpen = useBlogStore((state) => state.setIsModalOpen);
     const {
         register,
         handleSubmit,
@@ -23,17 +22,16 @@ export default function BlogForm() {
         reset,
     } = useForm<BlogFormData>({
         defaultValues: {
-            title: selectedBlog?.title || "",
-            content: selectedBlog?.content || "",
-            author: selectedBlog?.author || "",
-            imageUrl: selectedBlog?.imageUrl ?? undefined,
-            isPublished: selectedBlog?.isPublished || false,
-            _id: selectedBlog?._id || undefined,
+            title: "",
+            content: "",
+            author: "",
+            imageUrl: undefined,
+            isPublished: false,
+            _id: undefined,
         },
     });
 
     const [isEditing, setIsEditing] = useState(false);
-
     const [message, setMessage] = useState<{
         text: string;
         type: "success" | "error";
@@ -45,10 +43,10 @@ export default function BlogForm() {
         setMessage(null);
 
         if (data._id) {
-            setIsEditing(true); // Marca que estás editando
+            setIsEditing(true);
         }
 
-        // Validaciones...
+        // Validaciones
         if (!data.title.trim()) {
             setError("title", {
                 type: "manual",
@@ -71,15 +69,10 @@ export default function BlogForm() {
             return;
         }
 
-        if (!data.imageUrl?.trim()) {
-            delete data.imageUrl;
-        }
-
         try {
-            // Verifica si hay un _id para decidir si es creación o edición
             const url = data._id
-                ? `${baseUrl}/blogs/update/${data._id}` // URL para actualizar el blog
-                : `${baseUrl}/blogs/create`; // URL para crear el blog
+                ? `${baseUrl}/blogs/update/${data._id}`
+                : `${baseUrl}/blogs/create`;
 
             const response = await fetch(url, {
                 method: data._id ? "PUT" : "POST",
@@ -90,10 +83,10 @@ export default function BlogForm() {
             const responseData = await response.json();
 
             if (!response.ok) {
-                const errorMessage =
-                    responseData.message ||
-                    "Ocurrió un error inesperado. Intenta más tarde.";
-                setMessage({ text: errorMessage, type: "error" });
+                setMessage({
+                    text: responseData.message || "Ocurrió un error inesperado.",
+                    type: "error",
+                });
                 return;
             }
 
@@ -104,16 +97,12 @@ export default function BlogForm() {
                 type: "success",
             });
 
-            // Llamar a fetchAllBlogs para recargar la lista de blogs
             await useBlogStore.getState().fetchAllBlogs();
-
-            // Cerrar el formulario después de la operación exitosa
-            setIsModalOpen(false); // Cerramos el modal usando la función del store
-
+            setIsModalOpen(false); // Cierra el modal
         } catch (error) {
             console.error(error);
             setMessage({
-                text: "Hubo un problema con la conexión. Revisa tu red e intenta nuevamente.",
+                text: "Hubo un problema con la conexión.",
                 type: "error",
             });
         }
@@ -121,19 +110,31 @@ export default function BlogForm() {
 
     useEffect(() => {
         if (selectedBlog) {
+            // Si hay un blog seleccionado (modo edición), llenamos el formulario
             reset({
-                title: selectedBlog.title,
-                content: selectedBlog.content,
-                author: selectedBlog.author,
-                imageUrl: selectedBlog.imageUrl ?? undefined,
-                isPublished: selectedBlog.isPublished,
-                _id: selectedBlog._id,
+                title: selectedBlog.title || "",
+                content: selectedBlog.content || "",
+                author: selectedBlog.author || "",
+                imageUrl: selectedBlog.imageUrl || "",
+                isPublished: selectedBlog.isPublished || false,
+                _id: selectedBlog._id || undefined,
+            });
+        } else {
+            // Si no hay un blog seleccionado (modo creación), limpiamos el formulario
+            reset({
+                title: "",
+                content: "",
+                author: "",
+                imageUrl: "",
+                isPublished: false,
+                _id: undefined,
             });
         }
     }, [selectedBlog, reset]);
+    
 
     return (
-        <div className='p-4 border rounded-md shadow-md bg-white max-w-md mx-auto'>
+        <div className="p-4 border rounded-md shadow-md bg-white max-w-md mx-auto">
             {message && (
                 <div
                     className={`p-2 mb-4 rounded ${
@@ -147,100 +148,95 @@ export default function BlogForm() {
             )}
 
             <form onSubmit={handleSubmit(handleBlogSubmit)}>
-                <div className='mb-4'>
+                <div className="mb-4">
                     <label
-                        htmlFor='title'
-                        className='block text-sm font-medium text-gray-700'
+                        htmlFor="title"
+                        className="block text-sm font-medium text-gray-700"
                     >
                         Título
                     </label>
                     <input
-                        id='title'
-                        type='text'
+                        id="title"
+                        type="text"
                         {...register("title")}
-                        className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2'
+                        className="mt-1 block w-full border rounded-md p-2"
                     />
                     {errors.title && (
-                        <span className='text-red-500 text-sm'>
+                        <span className="text-red-500 text-sm">
                             {errors.title.message}
                         </span>
                     )}
                 </div>
 
-                <div className='mb-4'>
+                <div className="mb-4">
                     <label
-                        htmlFor='content'
-                        className='block text-sm font-medium text-gray-700'
+                        htmlFor="content"
+                        className="block text-sm font-medium text-gray-700"
                     >
                         Contenido
                     </label>
                     <textarea
-                        id='content'
+                        id="content"
                         {...register("content")}
-                        className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2'
+                        className="mt-1 block w-full border rounded-md p-2"
                     ></textarea>
                     {errors.content && (
-                        <span className='text-red-500 text-sm'>
+                        <span className="text-red-500 text-sm">
                             {errors.content.message}
                         </span>
                     )}
                 </div>
 
-                <div className='mb-4'>
+                <div className="mb-4">
                     <label
-                        htmlFor='author'
-                        className='block text-sm font-medium text-gray-700'
+                        htmlFor="author"
+                        className="block text-sm font-medium text-gray-700"
                     >
                         Autor
                     </label>
                     <input
-                        id='author'
-                        type='text'
+                        id="author"
+                        type="text"
                         {...register("author")}
-                        className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2'
+                        className="mt-1 block w-full border rounded-md p-2"
                     />
                     {errors.author && (
-                        <span className='text-red-500 text-sm'>
+                        <span className="text-red-500 text-sm">
                             {errors.author.message}
                         </span>
                     )}
                 </div>
 
-                <div className='mb-4'>
+                <div className="mb-4">
                     <label
-                        htmlFor='imageUrl'
-                        className='block text-sm font-medium text-gray-700'
+                        htmlFor="imageUrl"
+                        className="block text-sm font-medium text-gray-700"
                     >
                         URL de la Imagen (opcional)
                     </label>
                     <input
-                        id='imageUrl'
-                        type='url'
+                        id="imageUrl"
+                        type="url"
                         {...register("imageUrl")}
-                        className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2'
+                        className="mt-1 block w-full border rounded-md p-2"
                     />
-                    {errors.imageUrl && (
-                        <span className='text-red-500 text-sm'>
-                            {errors.imageUrl.message}
-                        </span>
-                    )}
                 </div>
 
-                <div className='mb-4'>
-                    <label htmlFor='isPublished' className='flex items-center'>
+                <div className="mb-4">
+                    <label htmlFor="isPublished" className="flex items-center">
                         <input
-                            id='isPublished'
-                            type='checkbox'
+                            id="isPublished"
+                            type="checkbox"
                             {...register("isPublished")}
-                            className='mr-2'
+                            className="mr-2"
                         />
                         Publicar inmediatamente
                     </label>
                 </div>
 
                 <button
-                    type='submit'
-                    className='w-full text-lg text-white bg-orange-600 font-bold uppercase py-2 px-4 rounded-xl hover:bg-white hover:text-orange-600 transition-all duration-300'
+                    type="submit"
+                    className="w-full text-white bg-orange-600 py-2 px-4 rounded-md hover:bg-orange-500"
                 >
                     {isEditing ? "Actualizar Blog" : "Crear Blog"}
                 </button>
